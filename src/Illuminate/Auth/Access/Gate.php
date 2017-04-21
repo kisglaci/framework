@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
+use Illuminate\Auth\Access\PolicyOrGateNotFoundException;
 
 class Gate implements GateContract
 {
@@ -317,9 +318,7 @@ class Gate implements GateContract
         } elseif (isset($this->abilities[$ability])) {
             return $this->abilities[$ability];
         } else {
-            return function () {
-                return false;
-            };
+            throw new PolicyOrGateNotFoundException('Policy or gate not found');
         }
     }
 
